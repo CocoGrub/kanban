@@ -1,8 +1,19 @@
-import logo from './logo.svg';
+import { Panel } from './components/index';
 import './App.css';
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      <Panel
+        items={[
+          { text: 'Взять топор' },
+          { text: 'Пойти в лес' },
+          { text: 'Срубить дерево' },
+          { text: 'Собрать бревна' },
+        ]}
+      />
+    </div>
+  );
 }
 
 export default App;
