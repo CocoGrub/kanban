@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './button.scss';
-const Button = ({ text }) => {
-  return <div className="button">{text}</div>;
+import './Button.scss';
+const Button = ({ children,addCard,text }) => {
+  return <div onClick={()=>addCard(text)} className="button">{children}</div>;
 };
 
-Button.propTypes = {
-  text: PropTypes.string.isRequired,
-};
+// Button.propTypes = {
+//   text: PropTypes.string.isRequired,
+// };
 
 export default Button;

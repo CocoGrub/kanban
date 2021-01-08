@@ -1,0 +1,19 @@
+.add-form {
+  &__input {
+    textarea {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      resize: none;
+    }
+  }
+  &__button {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    &-clear {
+      cursor: pointer;
+    }
+  }
+}

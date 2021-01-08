@@ -6,6 +6,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
 }
+* {
+  outline: none;
+}
 html,
 body,
 #root {
@@ -16,4 +19,7 @@ body,
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+.App {
+  display: flex;
 }
