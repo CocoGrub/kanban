@@ -81,7 +81,7 @@ const Panel = ({ ind,el,items,titleNumber }) => {
             </>
         )}
 
-        <AddForm columnName={title}/>
+        <AddForm columnName={title} titleNumber={titleNumber}/>
     </div>
   );
 };

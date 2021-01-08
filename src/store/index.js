@@ -19,15 +19,23 @@ const initialState = [
 const data = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'ADD_CARD':
+      console.log(payload,'add')
       if(typeof payload.columnName==='undefined'){
         return {...state,[uuid()]:[{text:payload.text,id:'dsdsax'}]}
       }
-        const col=state[payload.columnName]
-      return {...state,[payload.columnName]:[...col,{text:payload.text,id:'dsdsax'}]}
+        const col=[...state[payload.titleNumber][payload.columnName],{text:payload.text,id:'dsdsax'}]
+      const newS=[...state]
+        const newObj= {
+          [payload.columnName]: col
+        }
+      newS.splice(payload.titleNumber,1,newObj )
+      console.log(newObj,'newObj')
+      return [...newS]
+      // [...col,{text:payload.text,id:'dsdsax'}]
     case 'MOVE':
       return payload
     case 'MOVE_OUTSIDE':
-      return {...state}
+      return [...state]
     case 'ADD_COLUMN':
       return { ...state,items:[...state.items,[]], };
     case 'RENAME_TITLE':

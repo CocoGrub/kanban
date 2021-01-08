@@ -7,7 +7,7 @@ import AddSvg from '../../assets/remove.svg';
 import ClearSvg from '../../assets/remove.svg';
 import {ADD_CARD} from '../../store/actions'
 
-const AddForm = ({columnName}) => {
+const AddForm = ({columnName,titleNumber}) => {
   const dispatch = useDispatch()
   const [showForm, setShowForm] = useState(false)
   const [text,setText] = useState('')
@@ -20,7 +20,7 @@ const AddForm = ({columnName}) => {
   const addCard=()=>{
     dispatch({
       type:'ADD_CARD',
-      payload:{text,columnName}
+      payload:{text,columnName,titleNumber}
     })
     setText('')
     setShowForm(false)
