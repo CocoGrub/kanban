@@ -23,7 +23,7 @@ const Panel = ({ ind,el,items,titleNumber }) => {
             payload:{
                 prevTitle,
                 currentTitle,
-                title
+                titleNumber
             }
         })
     }

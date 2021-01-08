@@ -23,7 +23,7 @@ const data = (state = initialState, { type, payload }) => {
       if(typeof payload.columnName==='undefined'){
         return {...state,[uuid()]:[{text:payload.text,id:'dsdsax'}]}
       }
-        const col=[...state[payload.titleNumber][payload.columnName],{text:payload.text,id:'dsdsax'}]
+        const col=[...state[payload.titleNumber][payload.columnName],{text:payload.text,id:uuid()}]
       const newS=[...state]
         const newObj= {
           [payload.columnName]: col
@@ -39,20 +39,21 @@ const data = (state = initialState, { type, payload }) => {
     case 'ADD_COLUMN':
       return { ...state,items:[...state.items,[]], };
     case 'RENAME_TITLE':
-      const {prevTitle,currentTitle,title}=payload;
-        const newColumn=[...state[prevTitle]]
-      console.log(prevTitle)
-        const newState={...state}
-      const { [prevTitle]: remove, ...rest } = newState
+      const {prevTitle,currentTitle,titleNumber}=payload;
+      const newState=[...state]
+      const newColumn=newState[titleNumber][prevTitle]
       console.log(newColumn,'newColumn')
-
-     rest[currentTitle]=newColumn
-
-
-      // const newState={...state}
-      //
-      // return {...state,[uuid()]:[{text:payload.text,id:'dsdsax'}]}
-      return {...rest}
+      const { [prevTitle]: remove, ...rest } = newState
+      const titleToDel=newState[titleNumber]
+      const dwq=newState.filter((x)=>x!==titleToDel)
+      const obj={
+        [currentTitle]:newColumn
+      }
+      dwq.splice(titleNumber, 0, obj)
+      console.log('titleToDel',titleToDel)
+      console.log('dwq',dwq)
+     // rest[currentTitle]=newColumn
+      return [...dwq]
     case 'DELETE_CARD':
 
       const newItems=[...state]
