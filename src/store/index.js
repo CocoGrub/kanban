@@ -65,7 +65,10 @@ const data = (state = initialState, { type, payload }) => {
       console.log(newItems,'newItems')
       return [...newItems,]
     case'DELETE_COLUMN':
-      const result = [...state.slice(0, payload.titleNumber), ...state.slice(payload.titleNumber + 1)];
+      const result = [...state];
+      // const filteredItems = state.slice(0, payload.titleNumber).concat(state.slice(payload.titleNumber + 1, state.length))
+      result.splice(payload.titleNumber,1)
+      console.log(state)
       // const z=state.filter(x=>!x[payload.titleNumber])
       // console.log(payload.titleNumber)
       // newColumns.splice(payload.titleNumber,1)

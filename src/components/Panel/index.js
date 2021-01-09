@@ -43,6 +43,8 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
 
   return (
     <div className={classNames('panel', { 'panel--empty': !items })}>
+        {arr&&(
+            <>
        <div>
                 <input type={'text'} onChange={setTitle} value={currentTitle}/>
                 <button onClick={onChangeTitle}>save</button>
@@ -56,8 +58,7 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
                delete col
            </button>
             </div>
-        {arr&&(
-            <>
+
                 <Droppable key={ind} droppableId={`${ind}`}>
                     {(provided, snapshot) => (
                         <div ref={provided.innerRef}>
