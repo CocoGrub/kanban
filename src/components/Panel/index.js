@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Card, Button, AddForm } from '../index';
@@ -6,17 +6,26 @@ import './Panel.scss';
 import {Draggable, Droppable} from "react-beautiful-dnd";
 import {useDispatch} from "react-redux";
 
-const Panel = ({ ind,el,items,titleNumber }) => {
-    // if(typeof items==='undefined'){
-    //     items=[{}]
-    // }
-    const title=Object.keys(items)[0]
+const Panel = ({ ind,el,items,titleNumber,title }) => {
+    console.log(title,'title')
+    let arr,prevTitle
+
+    if(typeof items==='undefined'){
+        
+        title='new column'
+    }else {
+        arr=[items[Object.keys(items)]][0]
+        prevTitle=title
+    }
+
     // const titleNumber=items[0]
-    const arr=[items[Object.keys(items)]][0]
-    console.log(titleNumber,'titleNumber')
+    const [currentTitle,setCurrentTitle]=useState('')
     const dispatch = useDispatch()
-    const prevTitle=title
-    const [currentTitle,setCurrentTitle]=useState(title)
+    useEffect(()=>{
+        setCurrentTitle(title)
+    },[title])
+
+    console.log(currentTitle,'currentTitle')
     const onChangeTitle=()=>{
         dispatch({
             type:'RENAME_TITLE',
@@ -34,12 +43,21 @@ const Panel = ({ ind,el,items,titleNumber }) => {
 
   return (
     <div className={classNames('panel', { 'panel--empty': !items })}>
-        {arr&&(
-            <><div>
+       <div>
                 <input type={'text'} onChange={setTitle} value={currentTitle}/>
                 <button onClick={onChangeTitle}>save</button>
+           <button
+               type="button"
+               onClick={() => {
+                   dispatch({
+                       type:'DELETE_COLUMN',
+                       payload: {title,titleNumber}
+                   })}}>
+               delete col
+           </button>
             </div>
-
+        {arr&&(
+            <>
                 <Droppable key={ind} droppableId={`${ind}`}>
                     {(provided, snapshot) => (
                         <div ref={provided.innerRef}>

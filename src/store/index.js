@@ -19,9 +19,12 @@ const initialState = [
 const data = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'ADD_CARD':
-      console.log(payload,'add')
-      if(typeof payload.columnName==='undefined'){
-        return {...state,[uuid()]:[{text:payload.text,id:'dsdsax'}]}
+      if(typeof payload.titleNumber==='undefined'){
+        const newObj={[uuid()]:[{
+          text:payload.text,
+            id:uuid()
+          }]}
+        return [...state,newObj]
       }
         const col=[...state[payload.titleNumber][payload.columnName],{text:payload.text,id:uuid()}]
       const newS=[...state]
@@ -29,7 +32,7 @@ const data = (state = initialState, { type, payload }) => {
           [payload.columnName]: col
         }
       newS.splice(payload.titleNumber,1,newObj )
-      console.log(newObj,'newObj')
+
       return [...newS]
       // [...col,{text:payload.text,id:'dsdsax'}]
     case 'MOVE':
@@ -42,7 +45,6 @@ const data = (state = initialState, { type, payload }) => {
       const {prevTitle,currentTitle,titleNumber}=payload;
       const newState=[...state]
       const newColumn=newState[titleNumber][prevTitle]
-      console.log(newColumn,'newColumn')
       const { [prevTitle]: remove, ...rest } = newState
       const titleToDel=newState[titleNumber]
       const dwq=newState.filter((x)=>x!==titleToDel)
@@ -50,12 +52,8 @@ const data = (state = initialState, { type, payload }) => {
         [currentTitle]:newColumn
       }
       dwq.splice(titleNumber, 0, obj)
-      console.log('titleToDel',titleToDel)
-      console.log('dwq',dwq)
-     // rest[currentTitle]=newColumn
       return [...dwq]
     case 'DELETE_CARD':
-
       const newItems=[...state]
       console.log(payload,'pay')
       const cole = state[payload.titleNumber]
@@ -66,9 +64,12 @@ const data = (state = initialState, { type, payload }) => {
       newItems.splice(payload.titleNumber, 0, {[payload.title]:od})
       console.log(newItems,'newItems')
       return [...newItems,]
-      // const column=[...state[Object.keys(payload.co)]]
-      // newItems[payload.ind].splice(payload.index, 1);
-      // return { ...state,items:newItems.filter(group=>group.length) };
+    case'DELETE_COLUMN':
+      const result = [...state.slice(0, payload.titleNumber), ...state.slice(payload.titleNumber + 1)];
+      // const z=state.filter(x=>!x[payload.titleNumber])
+      // console.log(payload.titleNumber)
+      // newColumns.splice(payload.titleNumber,1)
+      return [...result]
     default:
       return state;
   }

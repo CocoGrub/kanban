@@ -23,9 +23,16 @@ function App() {
             <div style={{ display: "flex" }}>
                 <DragDropContext onDragEnd={onDragEND} >
                     {items.map((el, ind) => (
-                        <Panel el={el[ind]} ind={ind} key={ind} titleNumber={Object.keys(newItems)[ind]} items={items[ind]}/>
+                        <Panel
+                            el={el[ind]}
+                            ind={ind}
+                            key={ind}
+                            titleNumber={Object.keys(newItems)[ind]}
+                            items={items[ind]}
+                            title={Object.keys(el)[0]}
+                        />
                     ))}
-                    {/*<Panel />*/}
+                    <Panel />
                 </DragDropContext>
             </div>
         </div>
