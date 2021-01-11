@@ -1,7 +1,6 @@
-import {Card, Panel} from './components/index';
-import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import { Panel} from './components/index';
+import {DragDropContext} from "react-beautiful-dnd";
 import { useSelector } from 'react-redux';
-import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {onDragEnd} from "./store/actions";
 
@@ -23,7 +22,6 @@ function App() {
                 <DragDropContext onDragEnd={onDragEND} >
                     {items.map((el, ind) => (
                         <Panel
-                            el={el[ind]}
                             ind={ind}
                             key={ind}
                             titleNumber={Object.keys(newItems)[ind]}
