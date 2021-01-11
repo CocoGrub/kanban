@@ -1,40 +1,12 @@
 import state from './index';
 import {v4 as uuid} from "uuid";
-
-function genName(length) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const  charactersLength = characters.length;
-  for ( let i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-};
-
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
-  destClone.splice(droppableDestination.index, 0, removed);
-  const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
-  return result;
-};
+import {genName,reorder,move} from './helpers'
 
 
 export const onDragEnd=(result)=> {
   const newState= state.getState()
-  const prevState=state.getState()
-  const zedState=[...prevState]
+  const prevState=[...newState]
+  const res=[...prevState]
   const newItems = {...newState}
   const items=[]
   for(const property in newItems){
@@ -59,15 +31,13 @@ export const onDragEnd=(result)=> {
     const newState = [...items];
     newState[sInd] = q;
     let name=''
-    console.log(newState,'newState')
     for(let i =0;i<newState.length;i++){
       name=Object.keys(prevState[i])[0]
-      zedState[i]= {[name]:newState[i]}
+      res[i]= {[name]:newState[i]}
     }
-    console.log('prevState',prevState)
     return{
       type:'MOVE',
-      payload:zedState}
+      payload:res}
   } else {
     const result = move(items[sInd], items[dInd], source, destination);
     const newState = [...items].filter(group => group.length)
@@ -76,11 +46,11 @@ export const onDragEnd=(result)=> {
     let name=''
     for(let i =0;i<newState.length;i++){
       name=Object.keys(prevState[i])[0]
-      zedState[i]= {[name]:newState[i]}
+      res[i]= {[name]:newState[i]}
     }
     return{
       type:'MOVE',
-      payload:zedState
+      payload:res
     }
   }
 
@@ -88,7 +58,6 @@ export const onDragEnd=(result)=> {
 
 export const ADD_CARD = (titleNumber,text,columnName) => {
   const newState= state.getState()
-  console.log(titleNumber,text,columnName,'titleNumber,text,columnName')
   if(typeof titleNumber==='undefined'){
     const newObj={[genName(6)]:[{
         text,
@@ -100,32 +69,54 @@ export const ADD_CARD = (titleNumber,text,columnName) => {
     };
   }
   const col=[...newState[titleNumber][columnName],{text:text,id:uuid()}]
-  const newS=[...newState]
+  const result=[...newState]
   const newObj= {
     [columnName]: col
   }
-  newS.splice(titleNumber,1,newObj )
+  result.splice(titleNumber,1,newObj )
   return {
     type: 'ADD_CARD',
-    payload: [...newS],
+    payload: [...result],
   };
 
 };
 
 export const RENAME_TITLE=(prevTitle, currentTitle, titleNumber)=>{
   const myState= state.getState()
-  const newState=[...myState]
-  const newColumn=newState[titleNumber][prevTitle]
-  const { [prevTitle]: remove, ...rest } = newState
-  const titleToDel=newState[titleNumber]
-  const dwq=newState.filter((x)=>x!==titleToDel)
+  const newItems=[...myState]
+  const newColumn=newItems[titleNumber][prevTitle]
+  // eslint-disable-next-line no-unused-vars
+  const { [prevTitle]: remove, ...rest } = newItems
+  const titleToDel=newItems[titleNumber]
+  const result=newItems.filter((x)=>x!==titleToDel)
   const obj={
     [currentTitle]:newColumn
   }
-  dwq.splice(titleNumber, 0, obj)
+  result.splice(titleNumber, 0, obj)
   return {
     type:RENAME_TITLE,
-    payload:[...dwq]
+    payload:[...result]
   }
+}
 
+export const DELETE_CARD=(titleNumber,cardID,title)=>{
+  const newState= state.getState()
+  const newItems=[...newState]
+  const cole = newItems[titleNumber]
+  const od=cole[Object.keys(cole)[0]].filter((x)=>x.id!==cardID)
+  newItems.splice(titleNumber, 1);
+  newItems.splice(titleNumber, 0, {[title]:od})
+    return {
+      type:'DELETE_CARD',
+      payload:[...newItems]
+    }
+}
+
+export const DELETE_COLUMN=(titleNumber)=>{
+  const newState= state.getState()
+  const result = [...newState];
+  result.splice(titleNumber,1)
+  return {
+    type:'DELETE_COLUMN',
+    payload:[...result]}
 }

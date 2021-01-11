@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Card, Button, AddForm } from '../index';
+import { Card, AddForm,DeleteBtn } from '../index';
 import './Panel.scss';
 import {Draggable, Droppable} from "react-beautiful-dnd";
 import {useDispatch} from "react-redux";
-import DeleteBtn from "../DeleteButton";
 import ClearSvg from '../../assets/remove.svg';
-import {RENAME_TITLE} from "../../store/actions";
+import {DELETE_CARD, DELETE_COLUMN, RENAME_TITLE} from "../../store/actions";
 
-const Panel = ({ ind,el,items,titleNumber,title }) => {
+const Panel = ({ ind,items,titleNumber,title }) => {
     let arr,prevTitle
     if(typeof items==='undefined'){
         title='new column'
@@ -19,6 +17,7 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
     }
     const [currentTitle,setCurrentTitle]=useState('')
     const dispatch = useDispatch()
+
     useEffect(()=>{
         setCurrentTitle(title)
     },[title])
@@ -26,8 +25,6 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
     const onSpanClick=()=>{
         setShowInput(!showInput)
     }
-
-
 
     const onChangeTitle=()=>{
         setShowInput(!showInput)
@@ -37,10 +34,16 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
                 titleNumber
             ))
     }
+
     const setTitle=(e)=>{
         setCurrentTitle(e.target.value)
     }
-
+    const deleteCard=(titleNumber,cardID,title)=>{
+        dispatch(DELETE_CARD(titleNumber,cardID,title))
+    }
+    const deleteColumn=(titleNumber)=>{
+        dispatch(DELETE_COLUMN(titleNumber))
+    }
 
   return (
     <div className={classNames('panel', { 'panel--empty': !items })}>
@@ -51,10 +54,7 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
                         <span onClick={onSpanClick}>{currentTitle}</span>
                             <DeleteBtn
                                 onClick={() => {
-                                    dispatch({
-                                        type:'DELETE_COLUMN',
-                                        payload: {title,titleNumber}
-                                    })}}>
+                                    deleteColumn(titleNumber)}}>
                                 delete
                             </DeleteBtn>
                         </>)
@@ -63,12 +63,9 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
                         <input type={'text'} onChange={setTitle} value={currentTitle}/>
                         <DeleteBtn onClick={onChangeTitle}>save</DeleteBtn>
                         </>)}
-
-
                 </div>
-
                 <Droppable key={ind} droppableId={`${ind}`}>
-                    {(provided, snapshot) => (
+                    {(provided) => (
                         <div ref={provided.innerRef}>
                             {arr.map((item, index) => (
                                 <Draggable
@@ -76,7 +73,7 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
                                     draggableId={item.id}
                                     index={index}
                                 >
-                                    {(provided, snapshot) => (
+                                    {(provided) => (
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
@@ -85,15 +82,8 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
                                                 {item.text}
                                                 <img src={ClearSvg} alt={'remove item'}
                                                     onClick={() => {
-                                                        dispatch({
-                                                            type:'DELETE_CARD',
-                                                            payload:{
-                                                                title:title,
-                                                                cardID:item.id,
-                                                                titleNumber
-                                                            }})
+                                                        deleteCard(titleNumber,item.id,title)
                                                     }}/>
-
                                             </Card>
                                         </div>
                                     )}
@@ -105,14 +95,10 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
                 </Droppable>
             </>
         )}
-
         <AddForm columnName={title} titleNumber={titleNumber}/>
     </div>
   );
 };
 
-// Panel.propTypes = {
-//   text: PropTypes.string.isRequired,
-// };
 
 export default Panel;

@@ -1,6 +1,5 @@
 import React,{useState,useRef,useEffect} from 'react';
 import {useDispatch} from 'react-redux'
-import PropTypes from 'prop-types';
 import './AddForm.scss';
 import { Card,Button } from '../index';
 import AddSvg from '../../assets/add.svg';
@@ -12,12 +11,12 @@ const AddForm = ({columnName,titleNumber}) => {
   const [showForm, setShowForm] = useState(false)
   const [text,setText] = useState('')
   const textAreaRef = useRef(null)
+
   useEffect(() => {
     if(textAreaRef.current){
       textAreaRef.current.focus()
     }
   }, [showForm])
-
 
   const addCard=()=>{
     dispatch(ADD_CARD(titleNumber,text,columnName))
@@ -48,8 +47,5 @@ const AddForm = ({columnName,titleNumber}) => {
 </>;
 };
 
-// AddForm.propTypes = {
-//   text: PropTypes.string.isRequired,
-// };
 
 export default AddForm;
