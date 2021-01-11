@@ -7,6 +7,7 @@ import {Draggable, Droppable} from "react-beautiful-dnd";
 import {useDispatch} from "react-redux";
 import DeleteBtn from "../DeleteButton";
 import ClearSvg from '../../assets/remove.svg';
+import {RENAME_TITLE} from "../../store/actions";
 
 const Panel = ({ ind,el,items,titleNumber,title }) => {
     let arr,prevTitle
@@ -30,14 +31,11 @@ const Panel = ({ ind,el,items,titleNumber,title }) => {
 
     const onChangeTitle=()=>{
         setShowInput(!showInput)
-        dispatch({
-            type:'RENAME_TITLE',
-            payload:{
+        dispatch(RENAME_TITLE(
                 prevTitle,
                 currentTitle,
                 titleNumber
-            }
-        })
+            ))
     }
     const setTitle=(e)=>{
         setCurrentTitle(e.target.value)

@@ -28,17 +28,7 @@ const data = (state = initialState, { type, payload }) => {
     case 'ADD_COLUMN':
       return { ...state,items:[...state.items,[]], };
     case 'RENAME_TITLE':
-      const {prevTitle,currentTitle,titleNumber}=payload;
-      const newState=[...state]
-      const newColumn=newState[titleNumber][prevTitle]
-      const { [prevTitle]: remove, ...rest } = newState
-      const titleToDel=newState[titleNumber]
-      const dwq=newState.filter((x)=>x!==titleToDel)
-      const obj={
-        [currentTitle]:newColumn
-      }
-      dwq.splice(titleNumber, 0, obj)
-      return [...dwq]
+      return payload
     case 'DELETE_CARD':
       const newItems=[...state]
       const cole = state[payload.titleNumber]
@@ -55,14 +45,10 @@ const data = (state = initialState, { type, payload }) => {
   }
 };
 
-// const index = createStore(
-//   Card,
-//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-// );
 
 const store = createStore(
     data, initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({name:'main'})
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({name:'kanban-app'})
 );
 
 export default store;

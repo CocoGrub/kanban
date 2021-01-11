@@ -55,7 +55,6 @@ export const onDragEnd=(result)=> {
   const dInd = +destination.droppableId;
 
   if (sInd === dInd) {
-
     const q = reorder(items[sInd], source.index, destination.index);
     const newState = [...items];
     newState[sInd] = q;
@@ -97,7 +96,7 @@ export const ADD_CARD = (titleNumber,text,columnName) => {
       }]}
     return {
       type: 'ADD_CARD',
-      payload: [...state,newObj]
+      payload: [...newState,newObj]
     };
   }
   const col=[...newState[titleNumber][columnName],{text:text,id:uuid()}]
@@ -112,3 +111,21 @@ export const ADD_CARD = (titleNumber,text,columnName) => {
   };
 
 };
+
+export const RENAME_TITLE=(prevTitle, currentTitle, titleNumber)=>{
+  const myState= state.getState()
+  const newState=[...myState]
+  const newColumn=newState[titleNumber][prevTitle]
+  const { [prevTitle]: remove, ...rest } = newState
+  const titleToDel=newState[titleNumber]
+  const dwq=newState.filter((x)=>x!==titleToDel)
+  const obj={
+    [currentTitle]:newColumn
+  }
+  dwq.splice(titleNumber, 0, obj)
+  return {
+    type:RENAME_TITLE,
+    payload:[...dwq]
+  }
+
+}
