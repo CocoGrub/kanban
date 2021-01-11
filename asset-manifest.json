@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/kanban/static/css/main.e04e0158.chunk.css",
+    "main.js": "/kanban/static/js/main.a6c607ec.chunk.js",
+    "main.js.map": "/kanban/static/js/main.a6c607ec.chunk.js.map",
+    "runtime-main.js": "/kanban/static/js/runtime-main.4694a008.js",
+    "runtime-main.js.map": "/kanban/static/js/runtime-main.4694a008.js.map",
+    "static/js/2.f95d2654.chunk.js": "/kanban/static/js/2.f95d2654.chunk.js",
+    "static/js/2.f95d2654.chunk.js.map": "/kanban/static/js/2.f95d2654.chunk.js.map",
+    "index.html": "/kanban/index.html",
+    "static/css/main.e04e0158.chunk.css.map": "/kanban/static/css/main.e04e0158.chunk.css.map",
+    "static/js/2.f95d2654.chunk.js.LICENSE.txt": "/kanban/static/js/2.f95d2654.chunk.js.LICENSE.txt",
+    "static/media/add.5a391a60.svg": "/kanban/static/media/add.5a391a60.svg",
+    "static/media/remove.fb4c710b.svg": "/kanban/static/media/remove.fb4c710b.svg",
+    "static/media/index.css": "/kanban/static/media/stars-backg.1936e656.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4694a008.js",
+    "static/js/2.f95d2654.chunk.js",
+    "static/css/main.e04e0158.chunk.css",
+    "static/js/main.a6c607ec.chunk.js"
+  ]
+}
