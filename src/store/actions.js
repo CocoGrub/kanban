@@ -1,4 +1,16 @@
 import state from './index';
+import {v4 as uuid} from "uuid";
+
+function genName(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const  charactersLength = characters.length;
+  for ( let i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -28,13 +40,9 @@ export const onDragEnd=(result)=> {
   for(const property in newItems){
     let zz = newItems[Object.keys(newItems)[property]]
     for(const prop in zz ){
-      // console.log(zz[prop])
       items.push(zz[prop])
     }
-
-    // items.push(newItems[property])
   }
-  console.log(items,'act items')
   const { source, destination } = result;
 
   // if drop outside the list
@@ -51,7 +59,6 @@ export const onDragEnd=(result)=> {
     const q = reorder(items[sInd], source.index, destination.index);
     const newState = [...items];
     newState[sInd] = q;
-    const myState={}
     let name=''
     console.log(newState,'newState')
     for(let i =0;i<newState.length;i++){
@@ -68,7 +75,6 @@ export const onDragEnd=(result)=> {
     newState[sInd] = result[sInd];
     newState[dInd] = result[dInd];
     let name=''
-    const myState=[]
     for(let i =0;i<newState.length;i++){
       name=Object.keys(prevState[i])[0]
       zedState[i]= {[name]:newState[i]}
@@ -81,9 +87,28 @@ export const onDragEnd=(result)=> {
 
 }
 
-export const ADD_CARD = (text) => {
+export const ADD_CARD = (titleNumber,text,columnName) => {
+  const newState= state.getState()
+  console.log(titleNumber,text,columnName,'titleNumber,text,columnName')
+  if(typeof titleNumber==='undefined'){
+    const newObj={[genName(6)]:[{
+        text,
+        id:uuid()
+      }]}
+    return {
+      type: 'ADD_CARD',
+      payload: [...state,newObj]
+    };
+  }
+  const col=[...newState[titleNumber][columnName],{text:text,id:uuid()}]
+  const newS=[...newState]
+  const newObj= {
+    [columnName]: col
+  }
+  newS.splice(titleNumber,1,newObj )
   return {
     type: 'ADD_CARD',
-    payload: text,
+    payload: [...newS],
   };
+
 };

@@ -1,6 +1,7 @@
 import {applyMiddleware, compose, createStore} from 'redux';
 import {v4 as uuid} from 'uuid'
 
+
 const initialState = [
   {
     today: [
@@ -19,22 +20,7 @@ const initialState = [
 const data = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'ADD_CARD':
-      if(typeof payload.titleNumber==='undefined'){
-        const newObj={[uuid()]:[{
-          text:payload.text,
-            id:uuid()
-          }]}
-        return [...state,newObj]
-      }
-        const col=[...state[payload.titleNumber][payload.columnName],{text:payload.text,id:uuid()}]
-      const newS=[...state]
-        const newObj= {
-          [payload.columnName]: col
-        }
-      newS.splice(payload.titleNumber,1,newObj )
-
-      return [...newS]
-      // [...col,{text:payload.text,id:'dsdsax'}]
+      return payload
     case 'MOVE':
       return payload
     case 'MOVE_OUTSIDE':
@@ -55,23 +41,14 @@ const data = (state = initialState, { type, payload }) => {
       return [...dwq]
     case 'DELETE_CARD':
       const newItems=[...state]
-      console.log(payload,'pay')
       const cole = state[payload.titleNumber]
-        const od=cole[Object.keys(cole)[0]].filter((x)=>x.id!==payload.cardID)
-      console.log(od,'cole')
-      console.log(state[payload.titleNumber][payload.title],'state[payload.titleNumber][payload.title]')
+      const od=cole[Object.keys(cole)[0]].filter((x)=>x.id!==payload.cardID)
       newItems.splice(payload.titleNumber, 1);
       newItems.splice(payload.titleNumber, 0, {[payload.title]:od})
-      console.log(newItems,'newItems')
       return [...newItems,]
     case'DELETE_COLUMN':
       const result = [...state];
-      // const filteredItems = state.slice(0, payload.titleNumber).concat(state.slice(payload.titleNumber + 1, state.length))
       result.splice(payload.titleNumber,1)
-      console.log(state)
-      // const z=state.filter(x=>!x[payload.titleNumber])
-      // console.log(payload.titleNumber)
-      // newColumns.splice(payload.titleNumber,1)
       return [...result]
     default:
       return state;

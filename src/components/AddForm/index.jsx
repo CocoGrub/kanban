@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux'
 import PropTypes from 'prop-types';
 import './AddForm.scss';
 import { Card,Button } from '../index';
-import AddSvg from '../../assets/remove.svg';
+import AddSvg from '../../assets/add.svg';
 import ClearSvg from '../../assets/remove.svg';
 import {ADD_CARD} from '../../store/actions'
 
@@ -17,11 +17,10 @@ const AddForm = ({columnName,titleNumber}) => {
       textAreaRef.current.focus()
     }
   }, [showForm])
+
+
   const addCard=()=>{
-    dispatch({
-      type:'ADD_CARD',
-      payload:{text,columnName,titleNumber}
-    })
+    dispatch(ADD_CARD(titleNumber,text,columnName))
     setText('')
     setShowForm(false)
   }
@@ -36,13 +35,13 @@ const AddForm = ({columnName,titleNumber}) => {
       </Card>
       <div  className="add-form__button">
         <Button addCard={addCard} text={text} >Добавить карточку</Button>
-        <img  onClick={()=>setShowForm(false)} className="add-form__button-clear" src={ClearSvg} alt="Clear svg icon"></img>
+        <img  onClick={() => setShowForm(false)} className="add-form__button-clear" src={ClearSvg} alt="Clear svg icon"/>
       </div>
     </div>
   </div>):(
   <div className="panel__bottom">
     <div className="panel__bottom-add-btn" onClick={()=>setShowForm(true)}>
-      <img  src={AddSvg}  alt="add one card" ></img>
+      <img  src={AddSvg}  alt="add one card" />
   <span> Добавить еще одну карточку</span>
   </div>
   </div>)}

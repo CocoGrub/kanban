@@ -1,4 +1,3 @@
-import './App.css';
 import {Card, Panel} from './components/index';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import { useSelector } from 'react-redux';
